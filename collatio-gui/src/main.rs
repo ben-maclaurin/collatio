@@ -1,4 +1,4 @@
-mod widget;
+mod component;
 
 use druid::widget::{Label, Button, Flex};
 use druid::{AppLauncher, PlatformError, WindowDesc, Widget};
