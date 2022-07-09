@@ -1,6 +1,6 @@
 mod component;
 
-use component::input::input_component;
+use component::credentials::{email_input, password_input};
 use druid::piet::Color;
 use druid::widget::{Container, Flex};
 use druid::{AppLauncher, Data, Lens, LocalizedString, Widget, WindowDesc};
@@ -9,7 +9,8 @@ const WINDOW_TITLE: LocalizedString<ApplicationState> = LocalizedString::new("Co
 
 #[derive(Clone, Data, Lens)]
 pub struct ApplicationState {
-    username: String,
+    email: String,
+    password: String,
 }
 
 fn main() {
@@ -18,7 +19,8 @@ fn main() {
         .window_size((400.0, 400.0));
 
     let application_state = ApplicationState {
-        username: "".into(),
+        email: "".into(),
+        password: "".into(),
     };
 
     AppLauncher::with_window(main_window)
@@ -28,7 +30,7 @@ fn main() {
 
 // This is where the application starts
 fn build_root_widget() -> impl Widget<ApplicationState> {
-    let column = Flex::column().with_child(input_component("test".into()));
+    let column = Flex::column().with_child(email_input()).with_child(password_input());
     let mut container = Container::new(column);
     container.set_background(Color::WHITE);
     container
