@@ -1,6 +1,11 @@
-pub fn input_component() -> impl Widget<u32> {
-    let mut col = Flex::column();
+use crate::ApplicationState;
+use druid::widget::TextBox;
+use druid::{Widget, WidgetExt};
 
-    let input = TextBox::new().with_placeholder("test");
-    col.add_child(input);
+pub fn input_component(placeholder: String) -> impl Widget<ApplicationState> {
+    let input = TextBox::new()
+        .with_placeholder(placeholder)
+        .lens(ApplicationState::username);
+
+    input
 }

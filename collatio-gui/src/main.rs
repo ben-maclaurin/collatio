@@ -1,19 +1,30 @@
 mod component;
 
-use druid::widget::{Label, Button, Flex};
-use druid::{AppLauncher, PlatformError, WindowDesc, Widget};
+use druid::widget::Flex;
+use druid::{AppLauncher, Data, Lens, LocalizedString, Widget, WindowDesc};
 
-fn main() -> Result<(), PlatformError> {
-    let main_window = WindowDesc::new(ui_builder());
-    let data = 0_u32;
+const WINDOW_TITLE: LocalizedString<ApplicationState> = LocalizedString::new("Hello World!");
+
+#[derive(Clone, Data, Lens)]
+pub struct ApplicationState {
+    username: String,
+}
+
+fn main() {
+    let main_window = WindowDesc::new(build_root_widget())
+        .title(WINDOW_TITLE)
+        .window_size((400.0, 400.0));
+
+    let application_state = ApplicationState {
+        username: "".into(),
+    };
+
     AppLauncher::with_window(main_window)
-        .log_to_console()
-        .launch(data)
+        .launch(application_state)
+        .expect("failed to launch");
 }
 
 // This is where the application starts
-fn ui_builder() -> impl Widget<u32> {
-    let button = Button::new("hello");
-
-    Flex::column().with_child(button)
+fn build_root_widget() -> impl Widget<ApplicationState> {
+    Flex::column().with_child(component::input::input_component("test".into()))
 }
