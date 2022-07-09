@@ -1,9 +1,11 @@
 mod component;
 
-use druid::widget::Flex;
+use component::input::input_component;
+use druid::piet::Color;
+use druid::widget::{Container, Flex};
 use druid::{AppLauncher, Data, Lens, LocalizedString, Widget, WindowDesc};
 
-const WINDOW_TITLE: LocalizedString<ApplicationState> = LocalizedString::new("Hello World!");
+const WINDOW_TITLE: LocalizedString<ApplicationState> = LocalizedString::new("Collatio");
 
 #[derive(Clone, Data, Lens)]
 pub struct ApplicationState {
@@ -26,5 +28,8 @@ fn main() {
 
 // This is where the application starts
 fn build_root_widget() -> impl Widget<ApplicationState> {
-    Flex::column().with_child(component::input::input_component("test".into()))
+    let column = Flex::column().with_child(input_component("test".into()));
+    let mut container = Container::new(column);
+    container.set_background(Color::WHITE);
+    container
 }
